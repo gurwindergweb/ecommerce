@@ -9,7 +9,7 @@ class BannerWidget extends  Widget{
 
     public function run()
     {
-        $model = Banner::find()->where(['status'=>1])->all();
+        $model = Banner::find()->where(['status' => 1])->all();
         return $this->render('banner',[
             'model'=>$model,
         ]);
