@@ -561,9 +561,12 @@ h3.tittle-w3l span {
 
 #PPminicarts {
     left: 44% !important;
+    display: none;
 }
 
-.minicarts-showing #PPminicarts form {
+
+
+#PPminicarts form {
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -3171,6 +3174,55 @@ div#testimonials h4.m-title {
     .occasion-cart .snipcart-details {
         width: 45%;
     }
+}
+.product-single-w3l li{
+    margin-bottom: 0.25rem !important;}
+.single-infoagile li{
+    margin-bottom: 1rem !important;}
+	.avialablestock {
+  
+  text-align: justify;
+  letter-spacing: 3px;
+  text-decoration: none;
+  color: #008CBA;
+  font-size: 36px;
+font-weight: 500;
+}
+a.cart_button {
+
+    font-size: 13px;
+    color: #fff;
+    background: #0879c9;
+    text-decoration: none;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    text-transform: uppercase;
+    padding: 13px;
+    outline: none;
+    letter-spacing: 1px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.45);
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+
+}
+.checkout_button
+{
+    padding: 12px 25px;
+    color: #fff;
+    font-size: 16px;
+    background: #000;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    cursor: pointer;
+
 }
 
 /*--//responsive--*/

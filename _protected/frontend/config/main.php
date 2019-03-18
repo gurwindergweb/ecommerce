@@ -33,6 +33,10 @@ return [
                 ],
             ],
         ],
+        'cart' => [
+            'class' => 'yz\shoppingcart\ShoppingCart',
+            'cartId' => 'my_application_cart',
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

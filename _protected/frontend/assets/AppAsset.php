@@ -29,12 +29,13 @@ class AppAsset extends AssetBundle
     
     public $css = [
         'css/bootstrap.css',
+        'css/flexslider.css',
         'css/style.css',
         'css/popuo-box.css',
         'css/menu.css',
         'css/creditly.css',
         'css/easy-responsive-tabs.css',
-        'css/flexslider.css',
+
 
 
 
@@ -42,18 +43,20 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery-2.2.3.min.js',
+        // 'js/minicart.js',
+        'js/jquery.flexslider.js',
+        'js/myfile.js',
         'js/bootstrap.js',
         'js/creditly.js',
         'js/creditly2.js',
         'js/easing.js',
         'js/easyResponsiveTabs.js',
         'js/imagezoom.js',
-        'js/jquery.flexslider.js',
         'js/jquery.magnific-popup.js',
-        'js/minicart.js',
         'js/move-top.js',
         'js/scroll.js',
         'js/SmoothScroll.min.js',
+
     ];
     
     public $depends = [

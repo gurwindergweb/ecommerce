@@ -372,115 +372,48 @@
     </p>
   </div>
 </div>
-
-<!-- //jquery -->
-
-<!-- nav smooth scroll -->
-<script>
-  $(document).ready(function () {
-    $(".dropdown").hover(
-        function () {
-          $('.dropdown-menu', this).stop(true, true).slideDown("fast");
-          $(this).toggleClass('open');
-        },
-        function () {
-          $('.dropdown-menu', this).stop(true, true).slideUp("fast");
-          $(this).toggleClass('open');
-        }
-    );
-  });
-</script>
-<!-- //nav smooth scroll -->
-
-<!-- popup modal (for location)-->
-<script>
-  $(document).ready(function () {
-    $('.popup-with-zoom-anim').magnificPopup({
-      type: 'inline',
-      fixedContentPos: false,
-      fixedBgPos: true,
-      overflowY: 'auto',
-      closeBtnInside: true,
-      preloader: false,
-      midClick: true,
-      removalDelay: 300,
-      mainClass: 'my-mfp-zoom-in'
-    });
-
-  });
-</script>
-<!-- //popup modal (for location)-->
-
-<!-- cart-js -->
-<script>
-  paypals.minicarts.render(); //use only unique class names other than paypals.minicarts.Also Replace same class name in css and minicart.min.js
-
-  paypals.minicarts.cart.on('checkout', function (evt) {
-    var items = this.items(),
-        len = items.length,
-        total = 0,
-        i;
-
-    // Count the number of each item in the cart
-    for (i = 0; i < len; i++) {
-      total += items[i].get('quantity');
-    }
-
-    if (total < 3) {
-      alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-      evt.preventDefault();
-    }
-  });
-</script>
-<!-- //cart-js -->
-
-<!-- password-script -->
-<script>
-  window.onload = function () {
-    document.getElementById("password1").onchange = validatePassword;
-    document.getElementById("password2").onchange = validatePassword;
-  }
-
-  function validatePassword() {
-    var pass2 = document.getElementById("password2").value;
-    var pass1 = document.getElementById("password1").value;
-    if (pass1 != pass2)
-      document.getElementById("password2").setCustomValidity("Passwords Don't Match");
-    else
-      document.getElementById("password2").setCustomValidity('');
-    //empty string means no validation error
-  }
-</script>
-<!-- //password-script -->
-
-<!-- scroll seller -->
-<script>
-  jQuery(document).ready(function ($) {
-    $(".scroll").click(function (event) {
-      event.preventDefault();
-
-      $('html,body').animate({
-        scrollTop: $(this.hash).offset().top
-      }, 1000);
-    });
-  });
-</script>
-<!-- //end-smooth-scrolling -->
-
-<!-- smooth-scrolling-of-move-up -->
-<script>
-  $(document).ready(function () {
-    /*
-     var defaults = {
-     containerID: 'toTop', // fading element id
-     containerHoverID: 'toTopHover', // fading element hover id
-     scrollSpeed: 1200,
-     easingType: 'linear'
-     };
-     */
-    $().UItoTop({
-      easingType: 'easeOutQuart'
-    });
-
-  });
-</script>
+<!-- cart box -->
+<div id="PPminicarts">
+  <form method="post" class="" action="checkout.html" target="">
+    <button type="button" class="minicarts-closer">×</button>
+    <ul>
+      <li class="minicarts-item">
+        <div class="minicarts-details-name">
+          <a class="minicarts-name" href="file:///C:/Users/Gnetwebs/Desktop/New%20folder/New%20folder/index.html">Samsung Galaxy J7</a>
+          <!--ul class="minicarts-attributes">
+            <li>
+              Discount: $2.00
+              <input type="hidden" name="discount_amount_1" value="2">
+            </li>
+          </ul-->
+        </div>
+        <div class="minicarts-details-quantity">
+          <input class="minicarts-quantity" data-minicarts-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="2" autocomplete="off">
+        </div>
+        <div class="minicarts-details-remove">
+          <button type="button" class="minicarts-remove" data-minicarts-idx="0">×</button>
+        </div>
+        <div class="minicarts-details-price">
+          <span class="minicarts-price">$398.00</span>
+        </div>
+        <input type="hidden" name="item_name_1" value="Samsung Galaxy J7">
+        <input type="hidden" name="amount_1" value="200">
+        <input type="hidden" name="shipping_1" value="undefined">
+        <input type="hidden" name="shipping2_1" value="undefined">
+      </li>
+    </ul>
+    <div class="minicarts-footer">
+      <div class="minicarts-subtotal">
+        Subtotal: $1194.00 USD
+      </div>
+      <button class="minicarts-submit" type="submit" data-minicarts-alt="undefined">Check Out with <img src="//cdnjs.cloudflare.com/ajax/libs/minicart/3.0.1/paypal_65x18.png" alt="paypals" width="65" height="18"></button>
+    </div>
+    <input type="hidden" name="cmd" value="_cart">
+    <input type="hidden" name="upload" value="1">
+    <input type="hidden" name="bn" value="minicarts_AddToCart_WPS_US">
+    <input type="hidden" name="business" value=" ">
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="hidden" name="return" value=" ">
+    <input type="hidden" name="cancel_return" value=" ">
+  </form>
+</div>

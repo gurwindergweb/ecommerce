@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use backend\models\Gallary;
+use backend\models\ProductSearch;
 use common\models\User;
 use common\models\LoginForm;
 use frontend\models\AccountActivation;
@@ -11,12 +13,16 @@ use frontend\models\ContactForm;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use Yii;
 use backend\models\Product;
-
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionTrait;
+use yz\shoppingcart\ShoppingCart;
+use backend\models\Checkout;
 /**
  * Site controller.
  * It is responsible for displaying static pages, logging users in and out,
@@ -24,6 +30,8 @@ use backend\models\Product;
  */
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
+
     /**
      * Returns a list of behaviors that this component should behave as.
      *
@@ -90,9 +98,166 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionSingle($id)
+    {
+        $model = Product::find()->where(['id' => $id])->one();
+        $model1 = Gallary::find()->where(['product_id' => $id])->all();
+        return $this->render('single', [
+            'model' => $model,
+            'model1' => $model1,
+        ]);
+    }
+
     public function actionSearch()
     {
-        $model = new Product();
+        $searchModel = new ProductSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $var = Yii::$app->request->queryParams;
+        foreach ($var as $var1) {
+            foreach ($var1 as $var2) {
+                $model_data = $var2;
+            }
+        }
+        // die('test');
+        $myModels = $dataProvider->getModels();
+        // print_r($myModels); die('test');
+        return $this->render('search', [
+            'model' => $myModels,
+            'model_data' => $model_data,
+        ]);
+
+    }
+
+    public function actionAddToCart($id)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        $model_cart = new Checkout;
+        $model_cart1 = Checkout::find()->where(['product_id' => $id])->all();
+        $model1 = Product::find()->where(['id' => $id])->one();
+
+        if (empty($model_cart1)) {
+            // $model_cart->product_name = $model1->name;
+            $model_cart->quantity = 1;
+            $model_cart->product_id = $model1->id;
+            $model_cart->user_id = Yii::$app->user->identity->id;
+            $model_cart->price = $model1->offer_price;
+           // $model_cart->image = $model1->image;
+            $model_cart->save();
+            return $this->redirect(['cart-view']);
+        } else {
+            foreach($model_cart1 as $model_part) {
+                // $model_part->product_name = $model1->name;
+                $model_part->quantity = $model_part->quantity + 1;
+               // $model_part->product_id = $model1->id;
+               // $model_part->user_id = Yii::$app->user->identity->id;
+                $model_part->price = $model_part->quantity * $model1->offer_price;
+               // $model_part->image = $model1->image;
+            }
+            $model_part->save();
+            return $this->redirect(['cart-view']);
+        }
+    // die('test');
+    /* $cart = new ShoppingCart();
+  //  $cart = Yii::$app->cart;
+
+    $model = Product::findOne($id);
+
+    if ($model) {
+        $total = \Yii::$app->cart->getCost();
+        $itemsCount = \Yii::$app->cart->getCount();
+         // print_r($itemsCount); die('test');
+        $cart->put($model, 1);
+         $data = $cart->getPositions();
+
+        return $this->render('cart_view',[
+            'data'=>$data,
+            'total'=>$total,
+            'count'=>$itemsCount,
+        ]);
+    }
+    throw new NotFoundHttpException();*/
+}
+
+    public function actionAjaxQuantity()
+    {
+        $request = Yii::$app->request;
+        if($request->isAjax) {
+            $id = Yii::$app->request->post('id');
+            $new_price = Yii::$app->request->post('new_price');
+            $new_quantity = Yii::$app->request->post('new_quantity');
+            $model = Checkout::find()->where(['product_id' => $id])->one();
+            if(!empty($new_quantity)){
+            $model->price = $new_price;
+            $model->quantity = $new_quantity;
+            $model->save();
+            }
+            else
+            {
+                $model->delete();
+            }
+            // return $this->redirect(['cart-view']);
+        }
+    }
+
+   /* public function actionMinusQuantity($id)
+    {
+        $model = Checkout::find()->where(['product_id'=>$id])->one();
+        $model1 = $model->price / $model->quantity;
+        $model->quantity = $model->quantity - 1;
+        if(empty($model->quantity))
+        {
+           $model->delete();
+        }
+        else {
+            $model->price = $model->quantity * $model1;
+            $model->save();
+            }
+        return $this->redirect(['cart-view']);
+
+    }*/
+
+    public function actionDeleteItem($id)
+    {
+        $model = Checkout::findOne($id);
+        $model->delete();
+        $this->redirect(['cart-view']);
+        /*$cart = new ShoppingCart();
+        $cart->removeById($id);
+        return $this->redirect(['index']);*/
+    }
+
+    public function actionCartView()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+        $model = Checkout::find()->where(['user_id'=>Yii::$app->user->identity->id])->all();
+        $model_price = Product::find()->all();
+
+        foreach($model_price as $model1)
+        {
+            $product_price[$model1->id] = $model1->price;
+             $product_image[$model1->id] = $model1->image;
+            $product_name[$model1->id] = $model1->name;
+            $product_stock[$model1->id] = $model1->stock;
+        }
+        $count = Checkout::find()->count();
+        return $this->render('cart_view',[
+            'model'=>$model,
+            'count'=>$count,
+            'product_price'=>$product_price,
+            'product_image'=>$product_image,
+            'product_name'=>$product_name,
+            'product_stock'=>$product_stock,
+        ]);
+    }
+
+    public function actionCheckout()
+    {
+        return $this->render('checkout');
     }
 
     /**
@@ -187,6 +352,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+
         Yii::$app->user->logout();
 
         return $this->goHome();

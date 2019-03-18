@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
+use backend\models\Category;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ProductSearch */
@@ -18,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -27,13 +28,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'status',
-            'category',
-            'image',
+            'stock',
+            [
+                'attribute' => 'category',
+                'value' => function($model){
+                    $data = Category::find()->where(['id'=>$model->category])->one();
+                    return $data['category'];},
+            ],
+            [
+              'attribute' => 'image',
+              'value' => function($model){return Url::to('@appRoot',true).'/uploads/product/'.$model->image;},
+              'format' => ['image',['width'=>'100','height'=>'100']],
+
+            ],
             //'actual_price',
             //'offer_price',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
 </div>

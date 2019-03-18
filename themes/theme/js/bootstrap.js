@@ -2388,7 +2388,7 @@ var Modal = function ($$$1) {
    */
 
 
-  $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+  /*$$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
     var _this10 = this;
 
     var target;
@@ -2418,7 +2418,7 @@ var Modal = function ($$$1) {
     });
 
     Modal._jQueryInterface.call($$$1(target), config, this);
-  });
+  });*/
   /**
    * ------------------------------------------------------------------------
    * jQuery

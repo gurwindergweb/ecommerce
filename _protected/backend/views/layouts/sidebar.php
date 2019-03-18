@@ -44,7 +44,7 @@
                         <a href="<?= Yii::$app->homeUrl;?>product/index"><i class="fa fa-envelope"></i> <span class="nav-label">Product</span></a>
                     </li>
                     <li>
-                        <a href="<?= Yii::$app->homeUrl;?>courses"><i class="fa fa-pie-chart"></i> <span class="nav-label">Courses</span></a>
+                        <a href="<?= Yii::$app->homeUrl;?>category/index"><i class="fa fa-pie-chart"></i> <span class="nav-label">Category</span></a>
                     </li>
                     <li>
                         <a href="<?= Yii::$app->homeUrl;?>teacher"><i class="fa fa-flask"></i> <span class="nav-label">Teacher</span></a>

@@ -1,3 +1,7 @@
+<?php
+use yii\widgets\ActiveForm;
+use yii\helpers\Url;
+?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
   addEventListener("load", function () {
@@ -31,14 +35,22 @@
           <li class="text-center border-right text-white">
             <i class="fas fa-phone mr-2"></i> 001 234 5678
           </li>
-          <li class="text-center border-right text-white">
-            <a href="#" data-toggle="modal" data-target="#exampleModal" class="text-white">
-              <i class="fas fa-sign-in-alt mr-2"></i> Log In </a>
-          </li>
-          <li class="text-center text-white">
-            <a href="#" data-toggle="modal" data-target="#exampleModal2" class="text-white">
-              <i class="fas fa-sign-out-alt mr-2"></i>Register </a>
-          </li>
+          <?php  if (!Yii::$app->user->isGuest) { ?>
+            <li class="text-center border-right text-white">
+              <a href="<?= Url::Base() ?>/site/logout" data-method="post" data-toggle="modal" data-target="#exampleModal" class="text-white">
+                <i class="fas fa-sign-in-alt mr-2"></i> Log Out </a>
+            </li>
+          <?php } else { ?>
+            <li class="text-center border-right text-white">
+              <a href="<?= Url::Base() ?>/site/login" data-toggle="modal" data-target="#exampleModal" class="text-white">
+                <i class="fas fa-sign-in-alt mr-2"></i> Log In </a>
+            </li>
+            <li class="text-center text-white">
+              <a href="<?= Url::Base() ?>/site/signup" data-toggle="modal" data-target="#exampleModal2" class="text-white">
+                <i class="fas fa-sign-out-alt mr-2"></i>Register </a>
+            </li>
+          <?php } ?>
+
         </ul>
         <!-- //header lists -->
       </div>
@@ -427,7 +439,7 @@
 
 <!-- modals -->
 <!-- log in -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!--div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -463,9 +475,9 @@
       </div>
     </div>
   </div>
-</div>
+</div-->
 <!-- register -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
+<!--div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -505,7 +517,7 @@
       </div>
     </div>
   </div>
-</div>
+</div-->
 <!-- //modal -->
 <!-- //top-header -->
 
@@ -516,7 +528,7 @@
       <!-- logo -->
       <div class="col-md-3 logo_agile">
         <h1 class="text-center">
-          <a href="" class="font-weight-bold font-italic">
+          <a href="<?php echo Url::base(); ?>" class="font-weight-bold font-italic">
             <img src="<?= Yii :: $app->view->theme->baseUrl ?>/images/logo2.png" alt=" " class="img-fluid">Electro Store
           </a>
         </h1>
@@ -527,22 +539,24 @@
         <div class="row">
           <!-- search -->
           <div class="col-10 agileits_search">
-            <form class="form-inline" action="site/search" method="post">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
+              <?php $form = ActiveForm::begin([
+                  'action' => ['search'],
+                  'method' => 'get',
+                  'options' => ['class' => 'form-inline']
+              ]); ?>
+              <input name="ProductSearch[name]" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
               <button class="btn my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <?php ActiveForm::end(); ?>
           </div>
           <!-- //search -->
           <!-- cart details -->
           <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
             <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-              <form action="#" method="post" class="last">
-                <input type="hidden" name="cmd" value="_cart">
-                <input type="hidden" name="display" value="1">
+              <a href="<?= Url::Base() ?>/site/cart-view">
                 <button class="btn w3view-cart" type="submit" name="submit" value="">
                   <i class="fas fa-cart-arrow-down"></i>
                 </button>
-              </form>
+              </a>
             </div>
           </div>
           <!-- //cart details -->
